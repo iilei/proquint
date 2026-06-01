@@ -57,18 +57,18 @@ func runProquintEncode(args []string) {
 	if err != "" {
 		fmt.Fprintln(os.Stderr, err)
 		printProquintEncodeUsage()
-		os.Exit(1)
+		osExit(1)
 	}
 
 	value, ok := parseBigInt(raw)
 	if !ok {
 		fmt.Fprintf(os.Stderr, "invalid number: %s\n", raw)
-		os.Exit(1)
+		osExit(1)
 	}
 
 	if value.Sign() < 0 {
 		fmt.Fprintln(os.Stderr, "number must be non-negative")
-		os.Exit(1)
+		osExit(1)
 	}
 
 	fmt.Println(formatProquint(value, padGroups))
@@ -83,13 +83,13 @@ func runProquintDecode(args []string) {
 	if len(args) > 1 {
 		fmt.Fprintln(os.Stderr, "unexpected argument")
 		printProquintDecodeUsage()
-		os.Exit(1)
+		osExit(1)
 	}
 
 	value, err := decodeProquint(args[0])
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
-		os.Exit(1)
+		osExit(1)
 	}
 
 	fmt.Println(value.Text(10))

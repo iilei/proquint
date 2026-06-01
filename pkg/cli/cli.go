@@ -5,10 +5,12 @@ import (
 	"os"
 )
 
+var osExit = os.Exit
+
 func Execute() {
 	if len(os.Args) < 2 {
 		printUsage()
-		os.Exit(1)
+		osExit(1)
 	}
 
 	switch os.Args[1] {
