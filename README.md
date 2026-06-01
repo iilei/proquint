@@ -1,5 +1,7 @@
 # Proquint
 
+[![codecov](https://codecov.io/gh/iilei/proquint/branch/master/graph/badge.svg)](https://codecov.io/gh/iilei/proquint)
+
 Proquint generates and decodes human-recognisable identifiers: short five-letter words ("proquints") that represent arbitrary-size integers.
 
 Details at the [Proposal for Proquints.](https://arxiv.org/html/0901.4016)
