@@ -58,3 +58,17 @@ func TestMainDecode(t *testing.T) {
 		t.Fatalf("expected 42, got %q", output)
 	}
 }
+
+func TestMainVersion(t *testing.T) {
+	oldArgs := os.Args
+	defer func() { os.Args = oldArgs }()
+	os.Args = []string{"proquint", "--version"}
+
+	output := captureStdout(t, func() {
+		main()
+	})
+
+	if strings.TrimSpace(output) != "dev" {
+		t.Fatalf("expected dev, got %q", output)
+	}
+}
