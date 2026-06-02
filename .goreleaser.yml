@@ -6,20 +6,35 @@ before:
     - go test ./...
 
 builds:
-  - id: proquint-unix
+  - id: proquint-linux
     main: ./cmd/proquint
     binary: proquint
     env:
       - CGO_ENABLED=0
     goos:
       - linux
-      - darwin
     goarch:
       - amd64
       - arm64
       - arm
     goarm:
       - "7"  # ARMv7
+    ldflags:
+      - -s -w
+      - -X main.version={{.Version}}
+      - -X main.commit={{.Commit}}
+      - -X main.date={{.Date}}
+
+  - id: proquint-darwin
+    main: ./cmd/proquint
+    binary: proquint
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - darwin
+    goarch:
+      - amd64
+      - arm64
     ldflags:
       - -s -w
       - -X main.version={{.Version}}
@@ -45,8 +60,9 @@ builds:
 archives:
   - id: unix-archives
     ids:
-      - proquint-unix
-    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}{{ if eq .Arch \"arm\" }}v{{ .Arm }}{{ end }}"
+      - proquint-linux
+      - proquint-darwin
+    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ if eq .Arch \"all\" }}universal2{{ else }}{{ .Arch }}{{ end }}{{ if eq .Arch \"arm\" }}v{{ .Arm }}{{ end }}"
     formats:
       - tar.gz
     files:
@@ -62,6 +78,12 @@ archives:
     files:
       - README.md
       - LICENSE
+
+universal_binaries:
+  - id: proquint-darwin
+    ids:
+      - proquint-darwin
+    replace: true
 
 checksum:
   name_template: 'checksums.txt'

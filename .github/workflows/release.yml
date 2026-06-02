@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   release:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v6
         with:
@@ -114,15 +114,13 @@ jobs:
             return 1
           }
 
-          SHA_MACOS_ARM64="$(fetch_sha "proquint_${VERSION}_darwin_arm64.tar.gz")"
-          SHA_MACOS_AMD64="$(fetch_sha "proquint_${VERSION}_darwin_amd64.tar.gz")"
+          SHA_MACOS_UNIVERSAL2="$(fetch_sha "proquint_${VERSION}_darwin_universal2.tar.gz")"
           SHA_LINUX_AMD64="$(fetch_sha "proquint_${VERSION}_linux_amd64.tar.gz")"
           SHA_LINUX_ARM64="$(fetch_sha "proquint_${VERSION}_linux_arm64.tar.gz")"
           SHA256_LINUX_ARMV7="$(fetch_sha "proquint_${VERSION}_linux_armv7.tar.gz")"
           payload="$(jq -n \
             --arg version "$VERSION" \
-            --arg sha_macos_arm64 "$SHA_MACOS_ARM64" \
-            --arg sha_macos_amd64 "$SHA_MACOS_AMD64" \
+            --arg sha_macos_universal2 "$SHA_MACOS_UNIVERSAL2" \
             --arg sha_linux_amd64 "$SHA_LINUX_AMD64" \
             --arg sha_linux_arm64 "$SHA_LINUX_ARM64" \
             --arg sha_linux_armv7 "$SHA256_LINUX_ARMV7" \
@@ -132,11 +130,10 @@ jobs:
               client_payload: {
                 repository: $repository,
                 version: $version,
-                sha256_macos_arm64: $sha_macos_arm64,
-                sha256_macos_amd64: $sha_macos_amd64,
+                sha256_macos_universal2: $sha_macos_universal2,
                 sha256_linux_amd64: $sha_linux_amd64,
                 sha256_linux_arm64: $sha_linux_arm64,
-                sha_linux_armv7: $sha_linux_armv7,
+                sha256_linux_armv7: $sha_linux_armv7,
               }
             }')"
 
