@@ -118,13 +118,14 @@ jobs:
           SHA_MACOS_AMD64="$(fetch_sha "proquint_${VERSION}_darwin_amd64.tar.gz")"
           SHA_LINUX_AMD64="$(fetch_sha "proquint_${VERSION}_linux_amd64.tar.gz")"
           SHA_LINUX_ARM64="$(fetch_sha "proquint_${VERSION}_linux_arm64.tar.gz")"
-
+          SHA256_LINUX_ARMV7="$(fetch_sha "proquint_${VERSION}_linux_armv7.tar.gz")"
           payload="$(jq -n \
             --arg version "$VERSION" \
             --arg sha_macos_arm64 "$SHA_MACOS_ARM64" \
             --arg sha_macos_amd64 "$SHA_MACOS_AMD64" \
             --arg sha_linux_amd64 "$SHA_LINUX_AMD64" \
             --arg sha_linux_arm64 "$SHA_LINUX_ARM64" \
+            --arg sha_linux_armv7 "$SHA256_LINUX_ARMV7" \
             --arg repository "$REPOSITORY" \
             '{
               event_type: "formula-update",
@@ -134,7 +135,8 @@ jobs:
                 sha256_macos_arm64: $sha_macos_arm64,
                 sha256_macos_amd64: $sha_macos_amd64,
                 sha256_linux_amd64: $sha_linux_amd64,
-                sha256_linux_arm64: $sha_linux_arm64
+                sha256_linux_arm64: $sha_linux_arm64,
+                sha_linux_armv7: $sha_linux_armv7,
               }
             }')"
 

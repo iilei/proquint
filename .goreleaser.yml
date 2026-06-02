@@ -17,6 +17,9 @@ builds:
     goarch:
       - amd64
       - arm64
+      - arm
+    goarm:
+      - "7"  # ARMv7
     ldflags:
       - -s -w
       - -X main.version={{.Version}}
@@ -43,7 +46,7 @@ archives:
   - id: unix-archives
     ids:
       - proquint-unix
-    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}{{ if eq .Arch \"arm\" }}v{{ .Arm }}{{ end }}"
     formats:
       - tar.gz
     files:
