@@ -95,8 +95,6 @@ jobs:
             local sha=""
             local url="https://github.com/${GITHUB_REPOSITORY}/releases/download/v${VERSION}/${name}.sha256"
 
-            printf 'name: %s\n' "$name"
-
             while [[ "$i" -le "$attempts" ]]; do
               sha="$(curl -fsSL "$url" 2>/dev/null \
                 | tr -d '\r' \
