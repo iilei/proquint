@@ -31,44 +31,44 @@ jobs:
           gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
           passphrase: ${{ secrets.GPG_PASSPHRASE }}
 
-      - name: Release via goreleaser
-        uses: goreleaser/goreleaser-action@v7
-        with:
-          version: latest
-          args: release --clean
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GPG_FINGERPRINT: ${{ steps.import_gpg.outputs.fingerprint }}
+      # - name: Release via goreleaser
+      #   uses: goreleaser/goreleaser-action@v7
+      #   with:
+      #     version: latest
+      #     args: release --clean
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #     GPG_FINGERPRINT: ${{ steps.import_gpg.outputs.fingerprint }}
 
-      - name: Sign release artifacts
-        run: |
-          cd dist
-          set -euo pipefail
-          shopt -s nullglob
-          for artifact in *.tar.gz *.zip checksums.txt; do
-            gpg --batch --yes --detach-sign --local-user "${{ steps.import_gpg.outputs.fingerprint }}" "$artifact"
-          done
-        shell: bash
+      # - name: Sign release artifacts
+      #   run: |
+      #     cd dist
+      #     set -euo pipefail
+      #     shopt -s nullglob
+      #     for artifact in *.tar.gz *.zip checksums.txt; do
+      #       gpg --batch --yes --detach-sign --local-user "${{ steps.import_gpg.outputs.fingerprint }}" "$artifact"
+      #     done
+      #   shell: bash
 
-      - name: Upload GPG signatures
-        uses: softprops/action-gh-release@v3
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          files: dist/*.sig
+      # - name: Upload GPG signatures
+      #   uses: softprops/action-gh-release@v3
+      #   with:
+      #     token: ${{ secrets.GITHUB_TOKEN }}
+      #     files: dist/*.sig
 
-      - name: Publish SHA256 sidecars
-        run: |
-          cd dist
-          for file in *.tar.gz *.zip; do
-            sha256sum "$file" | awk '{print $1}' > "$file.sha256"
-          done
-        shell: bash
+      # - name: Publish SHA256 sidecars
+      #   run: |
+      #     cd dist
+      #     for file in *.tar.gz *.zip; do
+      #       sha256sum "$file" | awk '{print $1}' > "$file.sha256"
+      #     done
+      #   shell: bash
 
-      - name: Upload SHA256 sidecars to release
-        uses: softprops/action-gh-release@v3
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          files: dist/*.sha256
+      # - name: Upload SHA256 sidecars to release
+      #   uses: softprops/action-gh-release@v3
+      #   with:
+      #     token: ${{ secrets.GITHUB_TOKEN }}
+      #     files: dist/*.sha256
 
   notify-homebrew-tap:
     name: Notify homebrew-tap
