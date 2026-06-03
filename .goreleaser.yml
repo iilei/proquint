@@ -62,7 +62,12 @@ archives:
     ids:
       - proquint-linux
       - proquint-darwin
-    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ if eq .Arch \"all\" }}universal2{{ else }}{{ .Arch }}{{ end }}{{ if eq .Arch \"arm\" }}v{{ .Arm }}{{ end }}"
+    name_template: >-
+      {{ .ProjectName }}_{{ .Version }}_{{ .Os }}_
+      {{- if eq .Arch "amd64" }}x86_64
+      {{- else if eq .Arch "386" }}i386
+      {{- else }}{{ .Arch }}{{ end }}
+      {{- if eq .Arch "arm" }}v{{ .Arm }}{{ end }}
     formats:
       - tar.gz
     files:
