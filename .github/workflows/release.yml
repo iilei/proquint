@@ -84,7 +84,7 @@ jobs:
         run: |
           set -euo pipefail
 
-          VERSION="${VERSION#v}"
+          VERSION="${${VERSION#v}#debug-}"
           REPOSITORY="${GITHUB_REPOSITORY#*/}"
 
           fetch_sha() {
@@ -95,10 +95,10 @@ jobs:
             local sha=""
             local url="https://github.com/${GITHUB_REPOSITORY}/releases/download/v${VERSION}/${name}.sha256"
 
-            printf 'name: %s\n' "$name"
-
+            echo "name: $name" >&2
+            echo "Fetching: $url" >&2
             while [[ "$i" -le "$attempts" ]]; do
-              sha="$(curl -fsSL "$url" 2>/dev/null \
+              sha="$(curl -fsSL "$url" \
                 | tr -d '\r' \
                 | awk 'NR==1 {print $1}' || true)"
 
@@ -135,7 +135,7 @@ jobs:
                 sha256_macos_universal2: $sha_macos_universal2,
                 sha256_linux_x86_64: $sha256_linux_x86_64,
                 sha256_linux_arm64: $sha_linux_arm64,
-                sha256_linux_armv7: $sha_linux_armv7,
+                sha256_linux_armv7: $sha_linux_armv7
               }
             }')"
 
