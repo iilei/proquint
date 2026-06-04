@@ -11,8 +11,6 @@ Why use proquints?
 - They are easier to read, say, and remember than long numeric or hex strings.
 - They provide a compact, hyphen-separated representation for big integers.
 
-See [docs/API.md](docs/API.md) for additional design notes.
-
 ## Install
 
 Build from source:
