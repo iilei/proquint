@@ -11,6 +11,8 @@ Why use proquints?
 - They are easier to read, say, and remember than long numeric or hex strings.
 - They provide a compact, hyphen-separated representation for big integers.
 
+For humans, the difference between *`gipur-saluf` and `lukab-kodun`* is generally easier to perceive than the difference between *`36bbc1f2` and `7d806879`*.
+
 ## Install
 
 Build from source:
@@ -71,6 +73,8 @@ SHA=$(sha256sum LICENSE --tag | awk -F' ' '{print $NF}')
 proquint encode 0x$SHA
 # gipur-saluf-juvuf-gisid-mokar-mivub-lavil-hajah-rufup-pokah-miroh-bomik-doduj-silob-zopit-pohon
 ```
+
+This illustrates a usage scenario for quick integrity checks. A small change such as `echo '.' >> LICENSE` is often easier to spot when comparing proquints than when comparing raw hexadecimal digests.
 
 ### Encode an IP Adress
 
