@@ -29,6 +29,7 @@ jobs:
         uses: crazy-max/ghaction-import-gpg@v6
         with:
           gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+          fingerprint: 6B1667EFE795957739DCC0ECE47E882C7D4400F1
           passphrase: ${{ secrets.GPG_PASSPHRASE }}
 
       - name: Release via goreleaser
